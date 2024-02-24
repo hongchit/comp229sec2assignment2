@@ -6,7 +6,7 @@ const create = async (req, res) => {
   try {
     await product.save();
     return res.status(200).json({
-      message: "Successfully signed up!",
+      message: 'Product "' + product.name + '" added.',
     });
   } catch (err) {
     return res.status(400).json({
@@ -16,7 +16,25 @@ const create = async (req, res) => {
 };
 const list = async (req, res) => {
   try {
-    let products = await Product.find().select("name description price quantity category updated created");
+    let products = await Product.find().select(
+      "name description price quantity category updated created"
+    );
+
+    if (req.query && req.query.name) {
+      let s = req.query.name.match(/\[(.*)\]/);
+      console.log(s);
+      filtered = [];
+      if (s) {
+        name = s.splice(1);
+        forEach(products, function (product) {
+          if (product.includes(name)) {
+            result.push(product);
+          }
+        });
+        products = filtered;
+      }
+    }
+
     res.json(products);
   } catch (err) {
     return res.status(400).json({
@@ -66,4 +84,16 @@ const remove = async (req, res) => {
     });
   }
 };
-export default { create, productByID, read, list, remove, update };
+const removeAll = async (req, res) => {
+  try {
+    await Product.deleteMany();
+    return res.status(200).json({
+      message: "All products are deleted.",
+    });
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
+export default { create, productByID, read, list, remove, removeAll, update };

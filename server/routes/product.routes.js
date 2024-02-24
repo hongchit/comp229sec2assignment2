@@ -7,4 +7,5 @@ router.param("productId", productCtrl.productByID);
 router.route("/api/products/:productId").get(productCtrl.read);
 router.route("/api/products/:productId").put(productCtrl.update);
 router.route("/api/products/:productId").delete(productCtrl.remove);
+router.route("/api/products").delete(productCtrl.removeAll);
 export default router;
