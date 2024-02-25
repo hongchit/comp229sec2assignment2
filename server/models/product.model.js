@@ -23,14 +23,14 @@ const ProductSchema = new mongoose.Schema({
     trim: true,
     required: "Category is required",
   },
-  created: {
-    type: Date,
-    default: Date.now,
-  },
-  updated: {
-    type: Date,
-    default: Date.now,
-  },
+  // created: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
+  // updated: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
 },
 {
   collection: 'product'

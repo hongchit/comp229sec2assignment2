@@ -16,24 +16,22 @@ const create = async (req, res) => {
 };
 const list = async (req, res) => {
   try {
-    let products = await Product.find().select(
-      "name description price quantity category updated created"
-    );
+    // let filter = { name: { $regex: "pants"} };
+    let filter = null;
 
     if (req.query && req.query.name) {
       let s = req.query.name.match(/\[(.*)\]/);
-      console.log(s);
-      filtered = [];
+      // console.log(s);
       if (s) {
-        name = s.splice(1);
-        forEach(products, function (product) {
-          if (product.includes(name)) {
-            result.push(product);
-          }
-        });
-        products = filtered;
+        let keyword = s[1];
+        console.log("Keyword: " + keyword);
+        filter = { name: { $regex: keyword } };
       }
     }
+
+    let products = await Product.find(filter).select(
+      "name description price quantity category updated created"
+    );
 
     res.json(products);
   } catch (err) {
