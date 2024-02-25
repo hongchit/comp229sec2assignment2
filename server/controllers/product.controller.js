@@ -16,7 +16,6 @@ const create = async (req, res) => {
 };
 const list = async (req, res) => {
   try {
-    // let filter = { name: { $regex: "pants"} };
     let filter = null;
 
     if (req.query && req.query.name) {
@@ -30,7 +29,7 @@ const list = async (req, res) => {
     }
 
     let products = await Product.find(filter).select(
-      "name description price quantity category updated created"
+      "name description price quantity category"
     );
 
     res.json(products);
